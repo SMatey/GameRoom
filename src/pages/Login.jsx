@@ -5,7 +5,10 @@ import { GoogleIcon } from "../components/Icons";
 import {ThemeButton} from "../components/ThemeButton";
 
 const Login = () => {
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
 
   // Inicio de sesion con Google
   useEffect(() => {      
@@ -53,6 +56,62 @@ const Login = () => {
                 Continuar con Google
               </>
             </button>
+
+            {/* Separador */}
+            <div className="flex items-center my-6">
+              <hr className="flex-grow border-t border-primary-light/70 dark:border-primary/70"></hr>
+              <span className="mx-4 text-sm text-primary-light/70 dark:text-primary/70">O CONTINÚA CON</span>
+              <hr className="flex-grow border-t border-primary-light/70 dark:border-primary/70"></hr>
+            </div>
+
+            {/* Email/Password Form */}
+            <form>
+              {/* Campo Del Correo */}
+              <div className="grid">
+                <label
+                className="text-sm font-semibold"
+                >Correo electrónico</label>
+                <input
+                  className="border border-bprimary/70 py-3 px-4 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="ejemplo@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Campo de la Contraseña */}
+              <div className="grid">
+                <label
+                className="text-sm font-semibold"
+                >Contraseña</label>
+                <input
+                  className="border border-bprimary/70 py-3 px-4 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Boton Iniciar Sesion */}
+              <button
+                type="submit"
+                className="w-full h-12 mt-4 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors cursor-pointer"
+              >
+                Iniciar Sesión
+              </button>
+              <p className="text-center text-sm mt-4 text-primary-light/70 dark:text-primary/70">
+                ¿No tienes una cuenta?
+                <a className="ml-2 text-bprimary-light dark:text-bprimary cursor-pointer hover:text-bprimary-light/70 dark:hover:text-bprimary/80" href="/register">Registrate aqui</a>
+              </p>
+            </form>
           </div>
         </div>
       </div>
