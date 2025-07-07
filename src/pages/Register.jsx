@@ -5,9 +5,14 @@ import { ThemeButton } from "../components/ThemeButton";
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -18,6 +23,8 @@ const Register = () => {
     } else {
       alert("Cuenta creada correctamente. Revisa tu correo para confirmar.");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -66,10 +73,18 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full h-12 mt-2 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors"
+            disabled={loading}
+            className="w-full h-12 mt-2 ${
+              loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+            } bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors"
           >
-            Crear Cuenta
+            {loading ? 'Cargando...' : 'Crear Cuenta'}
           </button>
+          {error && (
+            <p className="text-red-500 text-sm mt-2">
+              {error.message}
+            </p>
+          )}
         </form>
       </div>
     </div>

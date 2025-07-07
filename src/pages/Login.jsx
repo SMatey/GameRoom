@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../supabaseClient";
 import { GoogleIcon } from "../components/Icons";
+import { Navigate } from "react-router-dom";
 
 import {ThemeButton} from "../components/ThemeButton";
 
@@ -8,9 +9,11 @@ const Login = () => {
   const [session, setSession] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
-  // Inicio de sesion con Google
+  
   useEffect(() => {      
     supabase.auth.getSession().then(({ data: { session } }) => {        
       setSession(session)      
@@ -23,7 +26,35 @@ const Login = () => {
 
     return () => subscription.unsubscribe()    
   }, [])
+
+  // Inicio de sesion con Email y Contraseña
+  const handleLoginWithPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const {error} = await supabase.auth.signInWithPassword({email, password});
+
+    if (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+  };
   
+  // Inicio de sesion con Google
+  const handleLoginWithGoogle = async () => {
+    setError(null);
+    const {error} = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (error) {
+      setError(error.message);
+    }
+  };
+
+  if(session) {
+    return <Navigate to="/home" replace/>
+  }
   
 
   return (
@@ -49,7 +80,7 @@ const Login = () => {
           {/* Card Body */}
           <div>
             {/* Google Sign In Button */}
-            <button 
+            <button onClick={handleLoginWithGoogle}
               className="flex items-center justify-center w-full h-12 cursor-pointer hover:shadow-lg rounded-lg border border-bprimary-light/70 hover:border-bprimary-light dark:border-bprimary/70 dark:hover:border-bprimary gap-2">
               <>
                 <GoogleIcon className="w-6 h-6 mr-2" />
@@ -65,7 +96,7 @@ const Login = () => {
             </div>
 
             {/* Email/Password Form */}
-            <form>
+            <form onSubmit={handleLoginWithPassword}>
               {/* Campo Del Correo */}
               <div className="grid">
                 <label
@@ -103,10 +134,22 @@ const Login = () => {
               {/* Boton Iniciar Sesion */}
               <button
                 type="submit"
-                className="w-full h-12 mt-4 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors cursor-pointer"
+                loading={loading}
+                className="w-full h-12 mt-4 ${
+                  loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
+                 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors cursor-pointer"
               >
-                Iniciar Sesión
+                {loading ? 'Cargando...' : 'Iniciar Sesión'}
               </button>
+
+              {/* Mensaje de error al iniciar sesion */}
+              {error && (
+                <p className="text-red-500 text-sm mt-2">
+                  {error.message}
+                </p>
+              )}
+
+              {/* Link para registrarse */}
               <p className="text-center text-sm mt-4 text-primary-light/70 dark:text-primary/70">
                 ¿No tienes una cuenta?
                 <a className="ml-2 text-bprimary-light dark:text-bprimary cursor-pointer hover:text-bprimary-light/70 dark:hover:text-bprimary/80" href="/register">Registrate aqui</a>
