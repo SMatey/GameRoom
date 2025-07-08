@@ -16,6 +16,9 @@ const Register = () => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: 'http://localhost:5173/verificado',
+      }
     });
 
     if (error) {
@@ -73,10 +76,9 @@ const Register = () => {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full h-12 mt-2 ${
+            className={`w-full h-12 mt-2 ${
               loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-            } bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors"
+            } bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors`}
           >
             {loading ? 'Cargando...' : 'Crear Cuenta'}
           </button>

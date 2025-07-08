@@ -1,31 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { supabase } from "../../supabaseClient";
 import { GoogleIcon } from "../components/Icons";
-import { Navigate } from "react-router-dom";
 
 import {ThemeButton} from "../components/ThemeButton";
+import { UserAuth } from "../context/AuthContext";
 
 const Login = () => {
-  const [session, setSession] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-
-  
-  useEffect(() => {      
-    supabase.auth.getSession().then(({ data: { session } }) => {        
-      setSession(session)      
-    })      
-    const {        
-      data: { subscription },      
-    } = supabase.auth.onAuthStateChange((_event, session) => {        
-      setSession(session)      
-    })    
-
-    return () => subscription.unsubscribe()    
-  }, [])
+  const {signInWithGoogle, signInWithEmail} = UserAuth();
 
   // Inicio de sesion con Email y Contraseña
   const handleLoginWithPassword = async (e) => {
@@ -33,28 +19,14 @@ const Login = () => {
     setLoading(true);
     setError(null);
 
-    const {error} = await supabase.auth.signInWithPassword({email, password});
-
-    if (error) {
+    try {
+      await signInWithEmail(email, password);
+    } catch (error) {
       setError(error.message);
     }
+
     setLoading(false);
   };
-  
-  // Inicio de sesion con Google
-  const handleLoginWithGoogle = async () => {
-    setError(null);
-    const {error} = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-    if (error) {
-      setError(error.message);
-    }
-  };
-
-  if(session) {
-    return <Navigate to="/home" replace/>
-  }
   
 
   return (
@@ -80,7 +52,7 @@ const Login = () => {
           {/* Card Body */}
           <div>
             {/* Google Sign In Button */}
-            <button onClick={handleLoginWithGoogle}
+            <button onClick={signInWithGoogle}
               className="flex items-center justify-center w-full h-12 cursor-pointer hover:shadow-lg rounded-lg border border-bprimary-light/70 hover:border-bprimary-light dark:border-bprimary/70 dark:hover:border-bprimary gap-2">
               <>
                 <GoogleIcon className="w-6 h-6 mr-2" />
@@ -100,10 +72,11 @@ const Login = () => {
               {/* Campo Del Correo */}
               <div className="grid">
                 <label
+                htmlFor="email"
                 className="text-sm font-semibold"
                 >Correo electrónico</label>
                 <input
-                  className="border border-bprimary/70 py-3 px-4 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
+                  className="border border-bprimary/70 pl-3 h-12 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
                   type="email"
                   id="email"
                   name="email"
@@ -120,7 +93,7 @@ const Login = () => {
                 className="text-sm font-semibold"
                 >Contraseña</label>
                 <input
-                  className="border border-bprimary/70 py-3 px-4 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
+                  className="border border-bprimary/70 h-12 pl-3 mt-2 rounded-lg focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
                   type="password"
                   id="password"
                   name="password"
@@ -134,10 +107,9 @@ const Login = () => {
               {/* Boton Iniciar Sesion */}
               <button
                 type="submit"
-                loading={loading}
-                className="w-full h-12 mt-4 ${
+                className={`w-full h-12 mt-4 ${
                   loading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
-                 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors cursor-pointer"
+                 bg-bprimary-light/80 dark:bg-bprimary font-bold text-primary-light dark:text-primary rounded-lg hover:bg-bprimary-light dark:hover:bg-bprimary/90 transition-colors cursor-pointer`}
               >
                 {loading ? 'Cargando...' : 'Iniciar Sesión'}
               </button>
