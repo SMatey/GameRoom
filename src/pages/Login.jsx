@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../../supabaseClient";
 import { GoogleIcon } from "../components/Icons";
 
 import {ThemeButton} from "../components/ThemeButton";

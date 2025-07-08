@@ -36,10 +36,10 @@ export const AuthContextProvider = ( {children} ) => {
     }
 
     // Cerrar sesion
-    async function singout() {
+    async function signout() {
         const {error} = await supabase.auth.signOut();
         if(error) throw new Error("A ocurrido un errorr durante el cierre de sesion");
-            return data;
+        return true;
     }
 
     // Listener de sesion
@@ -65,7 +65,7 @@ export const AuthContextProvider = ( {children} ) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{signInWithGoogle, signInWithEmail, singout, user}}>
+        <AuthContext.Provider value={{signInWithGoogle, signInWithEmail, signout, user}}>
             {children}
         </AuthContext.Provider>
     );
