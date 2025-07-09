@@ -2,13 +2,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer base  {
-  html {
-    @apply transition-colors duration-300;
-  }
-  body {
-    @apply bg-base-light dark:bg-base text-primary-light dark:text-primary
-  }
+body {
+  @apply bg-base-light dark:bg-base text-primary-light dark:text-primary transition-colors duration-300
 }
 
 @theme {  
