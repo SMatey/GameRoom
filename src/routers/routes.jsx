@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Verificado from "../pages/Verificado";
+import { Layout } from "../components/Layaout";
 
 export const AppRoutes = () => {
   return (
@@ -11,7 +12,11 @@ export const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verificado" element={<Verificado />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* Rutas proteghidas con Layaut + Sidebar */}
+        <Route path="/" element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+        </Route>
     </Routes>
   );
 }
