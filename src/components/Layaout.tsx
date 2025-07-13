@@ -43,7 +43,7 @@ export function Layout() {
       </header>
 
       {/* 👇 Debajo: sidebar + contenido */}
-      <div className="flex flex-1">
+      <div className="flex h-[calc(100vh-100px)]">
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <main className="flex-1 p-4 overflow-y-auto">
           <Outlet />

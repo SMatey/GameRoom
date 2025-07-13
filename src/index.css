@@ -21,6 +21,7 @@ body {
   --color-surface-light: #E0C3FC;
   --color-primary-light: #1E1E2F;
   --color-bprimary-light: #7B2CBF;
+ 
 }
 
 @keyframes fade-in-up {
