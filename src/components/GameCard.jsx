@@ -1,7 +1,7 @@
 // src/components/GameCard.jsx
 export function GameCard({ game }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div className="bg-surface-light dark:bg-surface rounded-lg shadow-md overflow-hidden hover:scale-105 transition-transform duration-300">
       <img
         src={game.background_image}
         alt={game.name}

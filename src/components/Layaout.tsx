@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { ThemeButton } from "./ThemeButton";
 import { HamburgerIcon } from "./Icons";
@@ -13,13 +13,13 @@ export function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Topbar arriba del todo */}
-      <header className="w-full  flex items-center justify-between px-6 py-4 gap-4">
-        <button onClick={() => setSidebarOpen(true)} className=" lg:hidden">
+      <header className="w-full flex items-center justify-between px-6 py-4 gap-4">
+        <button onClick={() => setSidebarOpen(true)} className="lg:hidden">
             <HamburgerIcon />
         </button>
     
-            {/* Logo o título */}
-        <a href="../pages/Home.jsx" className="text-xl font-bold pointer-cursor">GameRoom</a>
+        {/* Logo o título */}
+        <Link to="/home?filter=New Trending" className="text-xl font-bold pointer-cursor">GameRoom</Link>
 
         <div className="flex-grow flex justify-center">
             <input
@@ -30,7 +30,7 @@ export function Layout() {
                         sm:max-w-md
                         md:max-w-lg
                         lg:max-w-xl
-                        xl:max-w-2xl bg-surface-light dark:bg-surface  placeholder-gray-500"
+                        xl:max-w-2xl bg-surface-light dark:bg-surface placeholder-gray-500"
             onChange={(e) => {
                 // lógica de búsqueda opcional
                 console.log("Buscar:", e.target.value);
@@ -38,14 +38,16 @@ export function Layout() {
             />
         </div>
         
-
         <ThemeButton />
       </header>
 
       {/* 👇 Debajo: sidebar + contenido */}
-      <div className="flex h-[calc(100vh-100px)]">
+      <div className="flex flex-1">
+        {/* Sidebar a la izquierda */}
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="flex-1 p-4 overflow-y-auto">
+        
+        {/* Main content a la derecha */}
+        <main className="flex-1 p-4 overflow-y-auto h-[calc(100vh-100px)]">
           <Outlet />
         </main>
       </div>
