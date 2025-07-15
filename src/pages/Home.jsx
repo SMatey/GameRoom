@@ -101,7 +101,7 @@ const Home = () => {
 
   return (
     <div className="pr-4 pt-4 pb-4">
-      <h1 className="text-3xl font-bold mb-4 capitalize">
+      <h1 className="text-2xl lg:text-7xl font-bold mb-4 capitalize">
         {filter ? `Games - ${filter}` : "All Games"}
       </h1>
 

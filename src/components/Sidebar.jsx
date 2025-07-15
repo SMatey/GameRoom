@@ -53,7 +53,7 @@ export function Sidebar({ open, onClose }) {
       >
         {/* Header del sidebar */}
         <div className="flex justify-between items-center p-4 lg:hidden border-b border-gray-200 dark:border-gray-700">
-          <span className="text-lg font-bold">Menú</span>
+          <span className="text-2xl font-bold">Menú</span>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
@@ -73,7 +73,7 @@ export function Sidebar({ open, onClose }) {
           </Link>
 
           <div className="mt-6">
-            <p className="mb-2 text-xl font-bold text-primary-light dark:text-primary">
+            <p className="mb-2 text-2xl font-bold text-primary-light dark:text-primary">
               New Releases
             </p>
             <div className="flex flex-col gap-1 ml-2">
@@ -102,7 +102,7 @@ export function Sidebar({ open, onClose }) {
           </div>
 
           <div className="mt-6">
-            <p className="mb-2 text-xl font-bold text-primary-light dark:text-primary">
+            <p className="mb-2 text-2xl font-bold ">
               Top
             </p>
             <div className="flex flex-col gap-1 ml-2">
@@ -132,7 +132,7 @@ export function Sidebar({ open, onClose }) {
 
           <Link
             to="/home?filter=All Games"
-            className={getFilterClasses('All Games', 'mt-6 text-xl font-bold')}
+            className={getFilterClasses('All Games', 'mt-6 text-2xl font-bold')}
             onClick={() => window.innerWidth < 1024 && onClose()}
           >
             All Games
@@ -143,7 +143,7 @@ export function Sidebar({ open, onClose }) {
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={handleLogout}
-            className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-200 font-medium"
+            className="w-full bg-surface-light hover:bg-surface-light/60 dark:bg-bprimary dark:hover:bg-bprimary/60  px-4 py-2 rounded transition-colors duration-200 font-medium cursor-pointer"
           >
             Cerrar sesión
           </button>
