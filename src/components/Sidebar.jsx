@@ -143,7 +143,7 @@ export function Sidebar({ open, onClose }) {
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={handleLogout}
-            className="w-full bg-surface-light hover:bg-surface-light/60 dark:bg-bprimary dark:hover:bg-bprimary/60  px-4 py-2 rounded transition-colors duration-200 font-medium cursor-pointer"
+            className="w-full text-white bg-bprimary-light hover:bg-bprimary-light/60 dark:bg-bprimary dark:hover:bg-bprimary/60  px-4 py-2 rounded transition-colors duration-200 font-medium cursor-pointer"
           >
             Cerrar sesión
           </button>

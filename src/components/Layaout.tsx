@@ -24,7 +24,7 @@ export function Layout() {
           <input
             type="text"
             placeholder="Buscar juegos..."
-            className="w-full max-w-xs rounded-md bg-surface-light px-4 py-2 placeholder-gray-500 dark:bg-surface sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+            className="w-full max-w-xs rounded-md bg-surface-light px-4 py-2 placeholder-gray-500 dark:bg-surface sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl focus:border-bprimary outline-none focus:ring-1 focus:ring-bprimary"
             onChange={(e) => {
               console.log("Buscar:", e.target.value);
             }}

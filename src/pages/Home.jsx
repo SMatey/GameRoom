@@ -23,7 +23,6 @@ const filterMap = {
   "All Time Top 250": fetchAllTimeTop250,
 }
 
-
 const Home = () => {
   const [params] = useSearchParams();
   const filter = params.get("filter") || "All Games";
@@ -57,7 +56,7 @@ const Home = () => {
           return uniqueGames;
         });
         if (results.length === 0 || games.length + results.length >= count) {
-          setHasMore(false); // No hay más juegos disponibles
+          setHasMore(false);
         }
       }
     } catch (error) {
@@ -106,15 +105,12 @@ const Home = () => {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {games.map((game, index) =>
-          index === games.length - 1 ? (
-            <div ref={lastElementRef} key={game.id}>
-              <GameCard game={game} />
-            </div>
-          ) : (
-            <GameCard key={game.id} game={game} />
-          )
-        )}
+        {/* 👇 AQUÍ ESTÁ EL CAMBIO PRINCIPAL 👇 */}
+        {games.map((game, index) => (
+          <div key={game.id} ref={index === games.length - 1 ? lastElementRef : null}>
+            <GameCard game={game} />
+          </div>
+        ))}
       </div>
 
       {loading && (
