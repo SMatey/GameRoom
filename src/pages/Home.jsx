@@ -31,6 +31,8 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [sortedBy, setSortedBy] = useState("");
+  const [platforms, setPlatforms] = useState("");
 
   const loadGames = useCallback(async () => {
     if (!hasMore) return;
@@ -104,8 +106,33 @@ const Home = () => {
         {filter ? `Games - ${filter}` : "All Games"}
       </h1>
 
+      {/* Seccion de filtros internos */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        {/* Ordenar por: */}
+        <select
+          onChange={(e) => setSortedBy(e.target.value)}
+          className="px-3 py-2 border border-purple-500/60 rounded-md bg-surface-light dark:bg-surface">
+          <option value="">Order by: </option>
+          <option value="release_date">Release Date</option>
+          <option value="popularity">Popularity</option>
+          <option value="rating">Rating</option>
+        </select>
+
+        {/* Seleccionar plataforma */}
+        <select
+          onChange={(e) => setSortedBy(e.target.value)}
+          className="px-3 py-2 border border-purple-500/60 rounded-md bg-surface-light dark:bg-surface">
+          <option value="">Platforms: </option>
+          <option value="pc">PC</option>
+          <option value="playstation">PlayStation</option>
+          <option value="xbox">Xbox</option>
+          <option value="nintendo">Nintendo</option>
+          <option value="ios">iOS</option>
+          <option value="andoid">Android</option>
+        </select>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {/* 👇 AQUÍ ESTÁ EL CAMBIO PRINCIPAL 👇 */}
         {games.map((game, index) => (
           <div key={game.id} ref={index === games.length - 1 ? lastElementRef : null}>
             <GameCard game={game} />

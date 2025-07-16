@@ -1,8 +1,17 @@
-// src/components/GameCard.jsx
+import { useState } from "react";
+import { FavoriteIcon } from "./Icons";
+
 export function GameCard({ game }) {
+  const [favorite, setFavorite] = useState(false);
+  
+
   return (
-    <div className="group bg-surface-light dark:bg-surface rounded-lg shadow-lg overflow-hidden transition-all duration-300">
-      
+    <div className="relative group bg-surface-light dark:bg-surface rounded-lg shadow-lg overflow-hidden transition-all duration-300">
+      {/* Icono de favorito */}
+      <button onClick={() => setFavorite(!favorite)} className="absolute top-2 right-2 z-10 cursor-pointer">
+        <FavoriteIcon className={ favorite ? `text-purple-500` : 'text-gray-400'} filled={favorite} />
+      </button>
+
       {/* Imagen */}
       <img
         src={game.background_image}
@@ -28,9 +37,7 @@ export function GameCard({ game }) {
           ))}
         </div>
 
-        {/* 3. Contenido expandible */}
-        {/* Inicialmente tiene altura máxima 0 y opacidad 0. */}
-        {/* Al hacer hover en el `group`, se expande a una altura máxima y se vuelve opaco. */}
+        {/* Contenido expandible */}
         <div
           className="
             transition-all duration-500 ease-in-out 
@@ -40,9 +47,14 @@ export function GameCard({ game }) {
           {/* Divisor para separar visualmente el contenido */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3 text-sm text-gray-600 dark:text-gray-300">
             
-            <p>
-              <strong>Release Date:</strong> {game.released || 'N/A'}
+            <div className="mb-8">
+              <p className="relative flex">
+              <strong className="absolute left-0">Release Date:</strong> 
+              <div className="absolute right-0">
+                {game.released || 'N/A'}
+              </div>
             </p>
+            </div>
 
             <div>
               <strong>Platforms:</strong>
