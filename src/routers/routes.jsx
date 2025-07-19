@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Verificado from "../pages/Verificado";
 import { Layout } from "../components/Layaout";
+import GamePage  from "../pages/GamePage";
 
 export const AppRoutes = () => {
   return (
@@ -17,6 +18,9 @@ export const AppRoutes = () => {
         <Route path="/" element={<Layout />}>
             <Route path="/home" element={<Home />} />
         </Route>
+
+        
+        <Route path="/game/:id" element={<GamePage />} />
     </Routes>
   );
 }

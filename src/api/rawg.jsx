@@ -145,3 +145,14 @@ export const fetchAllTimeTop250 = (page = 1) => {
     "ratings_count": "1000,1000000",   
   });
 };
+
+// ------------- Traer Detalles de un Juego por ID ------------- //
+export const fetchGameDetails = async (gameId) => {
+  const urlParams = new URLSearchParams({ key: API_KEY });
+  const res = await fetch(`${BASE_URL}/games/${gameId}?${urlParams}`);
+  if (!res.ok) {
+    throw new Error(`Error fetching game details: ${res.statusText}`);
+  }
+  const data = await res.json();
+  return data; 
+};

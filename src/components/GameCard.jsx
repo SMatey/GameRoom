@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FavoriteIcon } from "./Icons";
+import { Link } from "react-router-dom";
 
 export function GameCard({ game }) {
   const [favorite, setFavorite] = useState(false);
@@ -48,12 +49,12 @@ export function GameCard({ game }) {
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3 text-sm text-gray-600 dark:text-gray-300">
             
             <div className="mb-8">
-              <p className="relative flex">
-              <strong className="absolute left-0">Release Date:</strong> 
-              <div className="absolute right-0">
-                {game.released || 'N/A'}
+              <div className="relative flex">
+                <strong className="absolute left-0">Release Date:</strong> 
+                <div className="absolute right-0">
+                  {game.released || 'N/A'}
+                </div>
               </div>
-            </p>
             </div>
 
             <div>
@@ -70,9 +71,13 @@ export function GameCard({ game }) {
               </div>
             </div>
 
-            <button className="w-full bg-bprimary-light dark:bg-bprimary text-white font-bold py-2 px-4 rounded hover:bg-opacity-90 transition-colors mt-2 cursor-pointer">
-              Show more details
-            </button>
+            <Link to={`/game/${game.id}`} className="w-full">
+                <button  className="w-full bg-bprimary-light dark:bg-bprimary text-white font-bold py-2 px-4 rounded hover:bg-opacity-90 transition-colors mt-2 cursor-pointer">
+                  Show more details
+                </button>
+            </Link>
+
+            
 
           </div>
         </div>
