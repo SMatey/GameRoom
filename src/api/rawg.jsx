@@ -156,3 +156,14 @@ export const fetchGameDetails = async (gameId) => {
   const data = await res.json();
   return data; 
 };
+
+// ------------- Traer Screenshots de un Juego por ID ------------- //
+export const fetchGameScreenshots = async (gameId) => {
+  const urlParams = new URLSearchParams({ key: API_KEY });
+  const res = await fetch(`${BASE_URL}/games/${gameId}/screenshots?${urlParams}`);
+  if (!res.ok) {
+    throw new Error(`Error fetching game screenshots: ${res.statusText}`);
+  }
+  const data = await res.json();
+  return data.results; 
+};
