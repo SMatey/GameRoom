@@ -2,7 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { 
   fetchGameDetails,
-  fetchGameScreenshots
+  fetchGameScreenshots,
+  fetchGameTrailers
  } from "../api/rawg";
 
 const GamePage = () => {
@@ -12,6 +13,7 @@ const GamePage = () => {
   const [screenshots, setScreenshots] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [trailers, setTrailers] = useState([]);
 
   // Cargar los detalles del juego al montar el componente
   useEffect(() => {
@@ -20,6 +22,15 @@ const GamePage = () => {
       setGame(data);
     };
     loadGame();
+  }, [id]);
+
+  // Cargar los trailers del juego
+  useEffect(() => {
+    const loadTrailers = async () => {
+      const data = await fetchGameTrailers(id);
+      setTrailers(data);
+    };
+    loadTrailers();
   }, [id]);
 
   // Cargar las capturas de pantalla del juego
@@ -89,7 +100,7 @@ const GamePage = () => {
               </span>
             )}
             {game.metacritic && (
-              <span className="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
+              <span className="bg-green-600/50 border border-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
                 Metacritic: {game.metacritic}
               </span>
             )}
@@ -142,24 +153,45 @@ const GamePage = () => {
               )}
             </div>
 
-            {/* Galeria de imagenes */}
-            <div className="py-6 my-6">
-              {screenshots && screenshots.length > 0 && (
-                <div className="grid grid-cols-2 gap-4">
-                  {screenshots.map((screenshot, index) => (
-                    <img
-                      key={index}
-                      src={screenshot.image}
-                      alt={`Screenshot ${index + 1}`}
-                      onClick={() => {
-                        setSelectedImage(screenshot.image);
-                        setIsOpen(true);
-                      }}
-                      className="rounded-lg shadow-lg  hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
-                    />
-                  ))}
-                </div>
-              )}
+            {/* Galeria de imagenes y trailers */}
+            <div>
+              {/* Trailer */}
+              <div>
+                {trailers.length > 0 && trailers[0].data && (
+                  <div className="mt-8">
+                    <h2 className="text-2xl font-semibold mb-2">Trailer</h2>
+                    <video
+                      controls
+                      className="w-full max-w-3xl rounded-lg shadow-lg"
+                      poster={trailers[0].preview}
+                    >
+                      <source src={trailers[0].data.max} type="video/mp4" />
+                      Tu navegador no soporta el video.
+                    </video>
+                    
+                  </div>
+                )}
+              </div>
+
+              {/* Galeria de imagenes */}
+              <div className="py-6 my-6">
+                {screenshots && screenshots.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {screenshots.map((screenshot, index) => (
+                      <img
+                        key={index}
+                        src={screenshot.image}
+                        alt={`Screenshot ${index + 1}`}
+                        onClick={() => {
+                          setSelectedImage(screenshot.image);
+                          setIsOpen(true);
+                        }}
+                        className="rounded-lg shadow-lg  hover:scale-105 transition-transform duration-200 cursor-pointer object-cover"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Modal para imagenes */}
@@ -202,6 +234,11 @@ const GamePage = () => {
                   </p>
                 </div>
               )}
+            </div>
+
+            {/* Carrete de juegos similares */}
+            <div>
+
             </div>
         </div>
       </div>

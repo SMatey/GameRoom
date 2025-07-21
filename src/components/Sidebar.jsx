@@ -1,5 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { CloseIcon } from "./Icons";
+import { 
+  CloseIcon,
+  StarIcon,
+  FireIcon,
+  NextIcon,
+  TrophyIcon,
+  PopularIcon,
+  CrownIcon
+ } from "./Icons";
 import { UserAuth } from "../context/AuthContext";
 
 export function Sidebar({ open, onClose }) {
@@ -25,9 +33,26 @@ export function Sidebar({ open, onClose }) {
     const isActive = isActiveFilter(filter);
     return `${baseClasses} ${
       isActive 
-        ? 'text-bprimary-light dark:text-bprimary' 
+        ? 'text-bprimary-light dark:text-bprimary font-bold' 
         : 'hover:text-bprimary-light dark:hover:text-bprimary'
     } transition-colors`;
+  };
+
+  // Función específica para el item con icono
+  const getIconFilterClasses = (filter) => {
+    const isActive = isActiveFilter(filter);
+    return {
+      container: `group text-lg font-medium py-1 flex items-center gap-2 transition-colors ${
+        isActive 
+          ? 'text-bprimary-light dark:text-bprimary font-bold' 
+          : 'hover:text-bprimary-light dark:hover:text-bprimary'
+      }`,
+      icon: `w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+        isActive 
+          ? 'bg-bprimary-light dark:bg-bprimary text-white' 
+          : 'bg-surface-light dark:bg-surface text-white group-hover:bg-bprimary-light dark:group-hover:bg-bprimary'
+      }`
+    };
   };
 
   return (
@@ -35,7 +60,7 @@ export function Sidebar({ open, onClose }) {
       {/* Overlay para móvil */}
       {open && (
         <div
-          className="fixed inset-0  bg-black/60 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/60 z-30 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -77,54 +102,77 @@ export function Sidebar({ open, onClose }) {
               New Releases
             </p>
             <div className="flex flex-col gap-1 ml-2">
+              {/* Last 30 Days con StarIcon */}
               <Link
                 to="/home?filter=Last 30 Days"
-                className={getFilterClasses('Last 30 Days', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('Last 30 Days').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('Last 30 Days').icon}>
+                  <StarIcon className="w-4 h-4" />
+                </span>
                 Last 30 days
               </Link>
+              
               <Link
                 to="/home?filter=This Week"
-                className={getFilterClasses('This Week', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('This Week').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('This Week').icon}>
+                  <FireIcon className="w-4 h-4" />
+                </span>
                 This Week
               </Link>
+
               <Link
                 to="/home?filter=Next Week"
-                className={getFilterClasses('Next Week', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('Next Week').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('Next Week').icon}>
+                  <NextIcon className="w-4 h-4" />
+                </span>
                 Next Week
               </Link>
             </div>
           </div>
 
           <div className="mt-6">
-            <p className="mb-2 text-2xl font-bold ">
+            <p className="mb-2 text-2xl font-bold text-primary-light dark:text-primary">
               Top
             </p>
             <div className="flex flex-col gap-1 ml-2">
               <Link
                 to="/home?filter=Best Of The Year"
-                className={getFilterClasses('Best Of The Year', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('Best Of The Year').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('Best Of The Year').icon}>
+                  <TrophyIcon className="w-4 h-4" />
+                </span>
                 Best of the year
               </Link>
+
               <Link
                 to="/home?filter=Popular in 2024"
-                className={getFilterClasses('Popular in 2024', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('Popular in 2024').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('Popular in 2024').icon}>
+                  <PopularIcon className="w-4 h-4" />
+                </span>
                 Popular in 2024
               </Link>
+
               <Link
                 to="/home?filter=All Time Top 250"
-                className={getFilterClasses('All Time Top 250', 'text-lg font-medium py-1')}
+                className={getIconFilterClasses('All Time Top 250').container}
                 onClick={() => window.innerWidth < 1024 && onClose()}
               >
+                <span className={getIconFilterClasses('All Time Top 250').icon}>
+                  <CrownIcon className="w-4 h-4" />
+                </span>
                 All Time Top 250
               </Link>
             </div>
@@ -143,7 +191,7 @@ export function Sidebar({ open, onClose }) {
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={handleLogout}
-            className="w-full text-white bg-bprimary-light hover:bg-bprimary-light/60 dark:bg-bprimary dark:hover:bg-bprimary/60  px-4 py-2 rounded transition-colors duration-200 font-medium cursor-pointer"
+            className="w-full text-white bg-bprimary-light hover:bg-bprimary-light/60 dark:bg-bprimary dark:hover:bg-bprimary/60 px-4 py-2 rounded transition-colors duration-200 font-medium cursor-pointer"
           >
             Logout
           </button>

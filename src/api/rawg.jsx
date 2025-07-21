@@ -167,3 +167,15 @@ export const fetchGameScreenshots = async (gameId) => {
   const data = await res.json();
   return data.results; 
 };
+
+// ------------- Traer Trailers de un Juego por ID ------------- //
+export const fetchGameTrailers = async (gameId) => {
+  const urlParams = new URLSearchParams({ key: API_KEY });
+  const res = await fetch(`${BASE_URL}/games/${gameId}/movies?${urlParams}`);
+  if (!res.ok) {
+    throw new Error(`Error fetching game trailers: ${res.statusText}`);
+  }
+  const data = await res.json();
+  return data.results; 
+};
+
