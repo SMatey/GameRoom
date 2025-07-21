@@ -17,7 +17,7 @@ export function GameCard({ game }) {
       <img
         src={game.background_image}
         alt={game.name}
-        className="w-full h-32 sm:h-40 md:h-48 object-cover"
+        className="w-full h-48 object-cover"
       />
 
       {/* Contenedor para todo el texto */}
