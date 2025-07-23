@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const AuthContextProvider = ( {children} ) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [userProfile, setUserProfile] = useState(null);
 
     // Iniciar sesion con Google
     async function signInWithGoogle() {
@@ -16,7 +17,9 @@ export const AuthContextProvider = ( {children} ) => {
             })
             if(error) throw new Error("A ocurrido un errorr durante la autenticacion");
             return data;
-        } catch (error) {}
+        } catch (error) {
+            throw error;
+        }
     }
 
     // iniciar sesion con Email y Contraseña
@@ -42,6 +45,21 @@ export const AuthContextProvider = ( {children} ) => {
         return true;
     }
 
+    // Obteener el perfil del usuario
+    const fetchUserProfile = async (userId) => {
+        const { data, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", userId)
+            .single();
+
+        if (error) {
+            console.error("Error fetching user profile:", error.message);
+        } else {
+            setUserProfile(data);
+        }
+    };
+
     // Listener de sesion
     useEffect(() => {
         const {data:authListener} = supabase.auth.
@@ -49,11 +67,13 @@ export const AuthContextProvider = ( {children} ) => {
             const location = window.location.pathname;
             if (session === null) {
             setUser(null);
+            setUserProfile(null);
             if (location !== '/register') {
                 navigate('/login', { replace: true });
             }
             } else {
             setUser(session.user);
+            await fetchUserProfile(session.user.id);
             if (location !== '/home') {
                 navigate('/home', { replace: true });
             }
@@ -65,7 +85,7 @@ export const AuthContextProvider = ( {children} ) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{signInWithGoogle, signInWithEmail, signout, user}}>
+        <AuthContext.Provider value={{signInWithGoogle, signInWithEmail, signout, user, userProfile}}>
             {children}
         </AuthContext.Provider>
     );

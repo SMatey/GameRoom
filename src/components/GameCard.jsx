@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FavoriteIcon } from "./Icons";
 import { Link } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
+import {
+  getFavorites,
+  addFavorite,
+  removeFavorite,
+} from "../services/favoritesService";
 
 export function GameCard({ game }) {
+  const { userProfile } = UserAuth();
   const [favorite, setFavorite] = useState(false);
-  
+
 
   return (
     <div className="relative group bg-surface-light dark:bg-surface rounded-lg shadow-lg overflow-hidden transition-all duration-300">
