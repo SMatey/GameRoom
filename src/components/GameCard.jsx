@@ -3,20 +3,39 @@ import { FavoriteIcon } from "./Icons";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 import {
-  getFavorites,
   addFavorite,
   removeFavorite,
 } from "../services/favoritesService";
 
-export function GameCard({ game }) {
+export function GameCard({ game, favorites = [] }) {
   const { userProfile } = UserAuth();
   const [favorite, setFavorite] = useState(false);
 
+  useEffect(() => {
+    if (!userProfile) return;
+    setFavorite(favorites.includes(game.id));
+  }, [favorites, userProfile, game.id]);
+
+  // Manejo del click en el icono de favorito
+  const handleFavoriteClick = async () => {
+    if (!userProfile) return;
+
+    try {
+      if (favorite) {
+        await removeFavorite(userProfile.id, game.id);
+      } else {
+        await addFavorite(userProfile.id, game.id);
+      }
+      setFavorite(!favorite);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
+  };
 
   return (
     <div className="relative group bg-surface-light dark:bg-surface rounded-lg shadow-lg overflow-hidden transition-all duration-300">
       {/* Icono de favorito */}
-      <button onClick={() => setFavorite(!favorite)} className="absolute top-2 right-2 z-10 cursor-pointer">
+      <button onClick={handleFavoriteClick} className="absolute top-2 right-2 z-10 cursor-pointer">
         <FavoriteIcon className={ favorite ? `text-purple-500` : 'text-gray-400'} filled={favorite} />
       </button>
 

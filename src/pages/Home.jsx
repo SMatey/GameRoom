@@ -11,6 +11,10 @@ import {
   fetchPopularIn2024,
   fetchAllTimeTop250
 } from "../api//rawg";
+import { 
+  getFavorites,
+} from "../services/favoritesService";
+import { UserAuth } from "../context/AuthContext";
 
 const filterMap = {
   "New Trending": fetchNewAndTrending,
@@ -24,6 +28,7 @@ const filterMap = {
 }
 
 const Home = () => {
+  const { userProfile } = UserAuth();
   const [params] = useSearchParams();
   const filter = params.get("filter") || "All Games";
 
@@ -34,6 +39,23 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [sortedBy, setSortedBy] = useState("");
   const [platform, setPlatform] = useState("");
+
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    if (!userProfile) return;
+
+    const fetchFavorites = async () => {
+      try {
+        const favs = await getFavorites(userProfile.id);
+        setFavorites(favs);
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    }
+
+    fetchFavorites();
+  }, [userProfile]);
 
   // Funcion para traer los juegos
   const loadGames = useCallback(async () => {
@@ -178,7 +200,7 @@ const Home = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredGames.map((game, index) => (
           <div key={game.id} ref={index === filteredGames.length - 1 ? lastElementRef : null}>
-            <GameCard game={game} />
+            <GameCard game={game} favorites={favorites} />
           </div>
         ))}
       </div>
