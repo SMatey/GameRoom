@@ -5,6 +5,7 @@ import Register from "../pages/Register";
 import Verificado from "../pages/Verificado";
 import { Layout } from "../components/Layaout";
 import GamePage  from "../pages/GamePage";
+import FavoritesPage from "../pages/FavoritesPage";
 
 export const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ export const AppRoutes = () => {
         {/* Rutas proteghidas con Layaut + Sidebar */}
         <Route path="/" element={<Layout />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
         </Route>
 
         

@@ -6,12 +6,13 @@ import {
   NextIcon,
   TrophyIcon,
   PopularIcon,
-  CrownIcon
+  CrownIcon,
+  FavoriteIcon
  } from "./Icons";
 import { UserAuth } from "../context/AuthContext";
 
 export function Sidebar({ open, onClose }) {
-  const { signout } = UserAuth();
+  const { signout, userProfile } = UserAuth();
   const location = useLocation();
 
   const handleLogout = async () => {
@@ -98,11 +99,28 @@ export function Sidebar({ open, onClose }) {
           </Link>
 
           <div className="mt-6">
+            <p className="mb-2 text-xl font-bold text-primary-light dark:text-primary">
+              { userProfile?.display_name || "No Name"}
+            </p>
+            <div className="flex flex-col gap-1 ml-2">
+              <Link
+                to="/favorites?filter=Favorites"
+                className={getIconFilterClasses('Favorites').container}
+                onClick={() => window.innerWidth < 1024 && onClose()}
+              >
+                <span className={getIconFilterClasses('Favorites').icon}>
+                  <FavoriteIcon className="w-6 h-6" />
+                </span>
+                Favorites
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-6">
             <p className="mb-2 text-2xl font-bold text-primary-light dark:text-primary">
               New Releases
             </p>
             <div className="flex flex-col gap-1 ml-2">
-              {/* Last 30 Days con StarIcon */}
               <Link
                 to="/home?filter=Last 30 Days"
                 className={getIconFilterClasses('Last 30 Days').container}
