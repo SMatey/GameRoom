@@ -11,22 +11,25 @@ export function GameCard({ game, favorites = [] }) {
   const { userProfile } = UserAuth();
   const [favorite, setFavorite] = useState(false);
 
+
   useEffect(() => {
-    if (!userProfile) return;
+    if (!userProfile || !favorites) return;
+    
     setFavorite(favorites.includes(game.id));
-  }, [favorites, userProfile, game.id]);
+  }, [favorites, userProfile]);
 
   // Manejo del click en el icono de favorito
   const handleFavoriteClick = async () => {
     if (!userProfile) return;
-
+    console.log("Se inicio el manejo del favorito para el juego:", game.id);
     try {
       if (favorite) {
         await removeFavorite(userProfile.id, game.id);
+        setFavorite(false);
       } else {
         await addFavorite(userProfile.id, game.id);
+        setFavorite(true);
       }
-      setFavorite(!favorite);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }
